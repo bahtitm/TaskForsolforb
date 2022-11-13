@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ namespace TaskForsolforb
         }
 
         public IConfiguration Configuration { get; }
+        private const string AllowedDomainsCorsPolicy = "AllowedDomains";
 
 
         public void ConfigureServices(IServiceCollection services)
@@ -29,7 +32,7 @@ namespace TaskForsolforb
 
             services.AddHttpContextAccessor();
 
-
+            services.AddCors(ConfigureCors);
 
             services.AddControllers();
 
@@ -39,6 +42,10 @@ namespace TaskForsolforb
             services.AddMemoryCache();
 
             services.AddSession();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
 
 
@@ -64,17 +71,34 @@ namespace TaskForsolforb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseRouting();
             app.UseSwagger();
 
             app.UseAuthorization();
+
           
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
                 //endpoints.MapRazorPages();
+            });
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+            });
+        }
+        private void ConfigureCors(CorsOptions options)
+        {
+            options.AddPolicy(AllowedDomainsCorsPolicy, builder =>
+            {
+                var tokenValidIssuers = new List<string>();
+                
+                    tokenValidIssuers.Add("https://localhost:5001");
+                tokenValidIssuers.Add("https://localhost:5001/api/Provide/");
+                builder.WithOrigins(tokenValidIssuers.ToArray()).AllowAnyMethod().AllowAnyHeader().AllowCredentials().AllowAnyOrigin();
             });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebApp.Domain
 {
@@ -15,7 +16,11 @@ namespace WebApp.Domain
         /// <summary>
         /// ProviderId(int) *редактируется* используется для фильтрации
         /// </summary>
-        public int ProviderId { get; set; }
+        /// 
+        public virtual Provide  Provide { get; set; }
+        public int ProvideId { get; set; }
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
 
 
     }

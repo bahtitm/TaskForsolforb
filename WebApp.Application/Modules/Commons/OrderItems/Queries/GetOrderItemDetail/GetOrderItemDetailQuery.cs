@@ -11,5 +11,13 @@ namespace WebApp.Application.Modules.Commons.OrderItems.Queries.GetOrderItemDeta
         {
             Id = id;
         }
+        public string Name { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public string Unit { get; set; }
+
+        
+        public int OrderId { get; set; }
     }
 }

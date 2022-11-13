@@ -11,5 +11,6 @@ namespace WebApp.Application.Modules.Commons.Provides.Queries.GetDetail
         {
             Id = id;
         }
+        public string Name { get; set; }
     }
 }

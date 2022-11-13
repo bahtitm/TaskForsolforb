@@ -2,5 +2,6 @@
 {
     public class ProvideDto
     {
+        public string Name { get; set; }
     }
 }

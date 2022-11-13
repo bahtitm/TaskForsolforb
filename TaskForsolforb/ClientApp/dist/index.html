@@ -1,0 +1,56 @@
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+</script>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js">
+  import axios from "axios";
+</script>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js">
+  import axios from "axios";
+</script>
+
+<div id="app">{{ message }}</div>
+<button>buton</button>
+
+<script type="module">
+  import { createApp } from "vue";
+
+  createApp({
+    data() {
+      return {
+        message: "Hello Vue!",
+      };
+    },
+    methods: {
+      get() {
+        console.log("Hello2");
+        axios
+          .get(`https://localhost:5001/api/Provide/`
+          )
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+    },
+
+    created() {
+      console.log("hello");
+      this.get();
+    },
+    mounted() {
+      axios({
+        method: "get",
+        url: "https://bit.ly/2mTM3nY",
+        responseType: "stream",
+      }).then(function (response) {
+        response.data.pipe(fs.createWriteStream("ada_lovelace.jpg"));
+      });
+    },
+  }).mount("#app");
+</script>
