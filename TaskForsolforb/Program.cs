@@ -4,23 +4,49 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TaskForsolforb.Data;
 
 namespace TaskForsolforb
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            
+            var host = CreateHostBuilder(args).Build();
+            using var scope = host.Services.CreateScope();
+            await MigrateDatabases(scope);
+             await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+               .ConfigureAppConfiguration((context, builder) =>
+               {
+                   builder.AddEnvironmentVariables();
+
+                   
+               })
+               .ConfigureServices((builder, services) =>
+               {
+                   
+                   services.AddScoped<DatabaseMigrator>();
+                  
+                  
+               })
+             
+              .ConfigureWebHostDefaults(webBuilder =>
+              {
+                  webBuilder.UseStartup<Startup>();
+              });
+
+        private static async Task MigrateDatabases(IServiceScope scope)
+        {
+            var databaseMigrator = scope.ServiceProvider.GetRequiredService<DatabaseMigrator>();
+            await databaseMigrator.MigrateAsync();
+        }
     }
 }

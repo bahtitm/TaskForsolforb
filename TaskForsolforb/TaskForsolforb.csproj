@@ -1,7 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>9fa36f82-2c68-41e1-bb7f-45dd14e1d89a</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="9.4.0" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DSEU.Infrastructure.Persistence\WebApp.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\WebApp.Application\WebApp.Application.csproj" />
+    <ProjectReference Include="..\WebApp.DataAccess.Interfaces\WebApp.DataAccess.Interfaces.csproj" />
+  </ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		
+		<Version>1.0.1</Version>
+	</PropertyGroup>
+	
 
 </Project>
